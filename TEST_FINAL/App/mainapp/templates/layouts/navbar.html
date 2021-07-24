@@ -1,0 +1,31 @@
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="static/images/black-logo.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+        Karma
+      </a>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          {% if user.is_authenticated %}
+          <a class="navbar-brand" href="{% url 'Home' %}">Home</a>
+          {% else %}
+          <a class="navbar-brand" href="#">About</a>
+          <a class="navbar-brand" href="#">Service</a>
+          {% endif %}
+        </div>
+      </nav>
+      {% if user.is_authenticated %}
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          {% if request.user.profile.pk %}
+          <li><a class="dropdown-item" href="{% url 'profile' request.user.profile.pk %}">Profile</a></li>
+          {% endif %}
+          <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </nav>

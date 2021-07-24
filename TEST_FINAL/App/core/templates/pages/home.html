@@ -1,0 +1,51 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10 col-sm-12 text-center">
+            {% if request.user.profile.name %}
+            <h1 class="display-2">Welcome Back {{request.user.profile.name}}</h1>
+            {% else %}
+            <h1 class="display-2">Welcome Back {{request.user.username}}</h1>
+            {% endif %}
+        </div>
+    </div>  
+    {% if request.user.profile.name %}
+    {% else %}
+    <div class="row mt-3">
+        <div class="col-md-5 col-sm-12">
+            <h5><a href="{% url 'create-profile' request.user.pk %}">Create a Profile!</a></h5>
+            <p>To se more options...</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <h5><a href="{% url 'add-post' %}">Add a Post!</a></h5>
+        </div>
+    </div>
+
+    {% for post in post_list %} 
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom position-relative">
+            {% if post.author.profile %}
+            <p><a style="text-decoration: none" class="text-primary" href="{% url 'profile' post.author.profile.pk %}">
+                @{{post.author.profile.name}}</a> {{post.created_at}}</p>
+            {% else %}
+                <p><a style="text-decoration: none" class="text-primary" href="#">
+                @{{post.author.profile.name}}</a> {{post.created_at}}</p>
+            {% endif %}
+
+            <div class="position-relative">
+            <p>{{ post.title }}</p>
+            <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
